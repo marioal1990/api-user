@@ -4,6 +4,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.regex.Pattern;
 
+/**
+ * Clase Utilitaria de validaciones personalizadas
+ */
 @NoArgsConstructor
 public class ValidationUtil {
 
