@@ -1,6 +1,7 @@
 package cl.api.apiuser.util;
 
 import cl.api.apiuser.bean.Phone;
+import cl.api.apiuser.bean.Role;
 import cl.api.apiuser.bean.User;
 import cl.api.apiuser.bean.dto.RegistroControllerRequest;
 import cl.api.apiuser.bean.dto.PhoneDTO;
@@ -27,6 +28,7 @@ public class ParseUtil {
         user.setModified(DateUtil.dateToString(new Date()));
         user.setLastLogin(DateUtil.dateToString(new Date()));
         user.setPhones(phoneDTOToPhone(registroControllerRequest.getPhones()));
+        user.setActive(true);
         return user;
     }
 

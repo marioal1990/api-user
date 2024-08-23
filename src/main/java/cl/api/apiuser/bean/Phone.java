@@ -1,15 +1,17 @@
 package cl.api.apiuser.bean;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "phones")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Phone {
 
     @Id
-    @Column(name = "number")
     private Long number;
     private String cityCode;
     private String contryCode;

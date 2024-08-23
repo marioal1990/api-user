@@ -1,7 +1,8 @@
 package cl.api.apiuser.controller;
 
+import cl.api.apiuser.bean.dto.LoginControllerRequest;
 import cl.api.apiuser.bean.dto.RegistroControllerRequest;
-import cl.api.apiuser.bean.dto.RegistroControllerResponse;
+import cl.api.apiuser.bean.dto.UserControllerResponse;
 import cl.api.apiuser.service.UserService;
 import cl.api.apiuser.util.ValidationUtil;
 import jakarta.validation.Valid;
@@ -18,7 +19,6 @@ import java.util.UUID;
  * Controlador de los métodos HTTP del usuario
  */
 @Slf4j
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -30,6 +30,25 @@ public class UserController {
         this.userService = userService;
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.POST,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserControllerResponse> login(@RequestBody @Valid LoginControllerRequest request) {
+        log.info("/login loading");
+        log.info("requests: {}", request.toString());
+        UserControllerResponse userControllerResponse;
+        try {
+            //validaciones personalizadas
+            ValidationUtil.emailValid(request.getEmail());
+
+            userControllerResponse = this.userService.login(request);
+        } catch (Exception e) {
+            userControllerResponse = new UserControllerResponse();
+            userControllerResponse.setMensaje(e.getMessage());
+        }
+        return new ResponseEntity<>(userControllerResponse, HttpStatus.BAD_REQUEST);
+    }
+
     /**
      * Método HTTP que registra a un nuevo usuario
      * @param request Objeto que representa la entrada JSON para el registro del nuevo usuario
@@ -38,19 +57,21 @@ public class UserController {
     @RequestMapping(value = "/registro", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegistroControllerResponse> registro(@RequestBody @Valid RegistroControllerRequest request) {
+    public ResponseEntity<UserControllerResponse> registro(@RequestBody @Valid RegistroControllerRequest request) {
+        log.info("/registro loading");
         log.info("requests: {}", request.toString());
-        RegistroControllerResponse registroControllerResponse;
+        UserControllerResponse userControllerResponse;
         try {
             //validaciones personalizadas
             ValidationUtil.emailValid(request.getEmail());
+            ValidationUtil.passwordValid(request.getPassword());
 
-            registroControllerResponse = this.userService.registro(request);
+            userControllerResponse = this.userService.registro(request);
         } catch (Exception e) {
-            registroControllerResponse = new RegistroControllerResponse();
-            registroControllerResponse.setMensaje(e.getMessage());
+            userControllerResponse = new UserControllerResponse();
+            userControllerResponse.setMensaje(e.getMessage());
         }
-        return new ResponseEntity<>(registroControllerResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(userControllerResponse, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -58,10 +79,10 @@ public class UserController {
      * @return Objeto que representa el mensaje de salida en JSON
      */
     @RequestMapping(value = "/hearthbeat", method = RequestMethod.GET)
-    public ResponseEntity<RegistroControllerResponse> hearthbeat() {
-        RegistroControllerResponse registroControllerResponse = new RegistroControllerResponse();
-        registroControllerResponse.setUuid(UUID.randomUUID().toString());
-        registroControllerResponse.setMensaje("Hearthbeat UserController OK");
-        return new ResponseEntity<>(registroControllerResponse, HttpStatus.OK);
+    public ResponseEntity<UserControllerResponse> hearthbeat() {
+        log.info("/hearthbeat loading");
+        UserControllerResponse userControllerResponse = new UserControllerResponse();
+        userControllerResponse.setMensaje("Hearthbeat UserController OK");
+        return new ResponseEntity<>(userControllerResponse, HttpStatus.OK);
     }
 }

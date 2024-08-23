@@ -1,18 +1,21 @@
 package cl.api.apiuser.bean;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String uuid;
     private String name;
     private String email;
     private String password;
@@ -21,8 +24,7 @@ public class User {
     private String lastLogin;
     private boolean active;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "number")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id",referencedColumnName = "uuid")
     private List<Phone> phones;
-
 }

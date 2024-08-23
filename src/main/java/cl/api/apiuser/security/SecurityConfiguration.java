@@ -11,36 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-//                )
-//                .headers(headers -> headers.frameOptions(frameOptionsConfig -> headers.disable()))
-//                .csrf(csrf -> csrf
-//                        .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")));
-//        return httpSecurity.build();
-//    }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        return httpSecurity.csrf(csrf -> csrf
-//                        .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")))
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(
-//                                "/api-user/api/v1/user/hearthbeat",
-//                                "/api-user/api/v1/user/registro",
-//                                "/h2-console/**",
-//                                "/login").permitAll()
-//                ).formLogin(Customizer.withDefaults()).build();
-//    }
 
     /**
      * Configures Spring Security's HTTP request authorization.
@@ -55,11 +29,13 @@ public class SecurityConfiguration {
                         //USER CONTROLLER
                         .requestMatchers("/api-user/**").hasRole("ADMIN")
                         .requestMatchers("/api-user/api/v1/user/hearthbeat").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/api-user/api/v1/user/login").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/api-user/api/v1/user/registro").hasRole("ADMIN")
                         //H2 DATABASE
+                        .requestMatchers("/api-user/h2-console").hasRole("ADMIN")
                         .requestMatchers("/api-user/h2-console/**").hasRole("ADMIN")
                         //LOGIN
-                        .requestMatchers("/api-user/login/").hasRole("ADMIN")
+                        .requestMatchers("/api-user/login/").hasAnyRole("ADMIN", "USER")
                         .anyRequest()
                         .authenticated()
                 )

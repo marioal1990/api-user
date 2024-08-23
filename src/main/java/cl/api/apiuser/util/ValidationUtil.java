@@ -1,7 +1,6 @@
 package cl.api.apiuser.util;
 
 import lombok.NoArgsConstructor;
-
 import java.util.regex.Pattern;
 
 /**
@@ -24,6 +23,23 @@ public class ValidationUtil {
                 .matches();
         if (!regexEmail) {
             throw new IllegalArgumentException("El email ingresado no cumple con el formato correcto");
+        }
+    }
+
+    /**
+     * Validación de la contraseña
+     * @param password Cadena de caracteres que representa a la contraseña del usuario
+     */
+    public static void passwordValid(String password) {
+        if (password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("El password es vacio");
+        }
+
+        boolean regexPass = Pattern.compile(ConstantesUtil.PASSWORD_REGEX)
+                .matcher(password)
+                .matches();
+        if (!regexPass) {
+            throw new IllegalArgumentException("El password ingresado no cumple con el formato correcto");
         }
     }
 
