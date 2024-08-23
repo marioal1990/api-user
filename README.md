@@ -3,6 +3,8 @@
 PARA LEVANTAR EL PROYECTO SOLO BASTA CORRER EL SIGUIENTE COMANDO: mvnw spring-boot:run
 PARA BAJAR EL PROYECTO SOLO PRESIONAR CTRL + C
 
+SE USA LA BASE DE DATOS H2 CON HIBERNATE, POR ENDE NO ES NECESARIO USAR UN SCRIPT DE BASE DE DATOS.
+
 URL: http://localhost:8888/api-user
 
 Debido a que la seguridad está creada con Spring Security, para poder acceder a los métodos http
