@@ -13,8 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 /**
  * Controlador de los métodos HTTP del usuario
  */
@@ -34,8 +32,7 @@ public class UserController {
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserControllerResponse> login(@RequestBody @Valid LoginControllerRequest request) {
-        log.info("/login loading");
-        log.info("requests: {}", request.toString());
+        log.info("/login loading requests: {}", request.toString());
         UserControllerResponse userControllerResponse;
         try {
             //validaciones personalizadas
@@ -58,8 +55,7 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserControllerResponse> registro(@RequestBody @Valid RegistroControllerRequest request) {
-        log.info("/registro loading");
-        log.info("requests: {}", request.toString());
+        log.info("/registro loading requests: {}", request.toString());
         UserControllerResponse userControllerResponse;
         try {
             //validaciones personalizadas

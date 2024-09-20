@@ -20,7 +20,7 @@ USER: user
 PASSWORD: test123
 PERMISOS: login, hearthbeat
 
-Métodos HTTP disponibles:
+Métodos HTTP disponibles:e
  * POST - http://localhost:8888/api-user/api/v1/user/registro - Método para registrar un usuario
    * objeto entrada:
     {
